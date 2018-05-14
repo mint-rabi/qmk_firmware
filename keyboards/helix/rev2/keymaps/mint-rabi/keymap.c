@@ -330,14 +330,14 @@ void matrix_update(struct CharacterMatrix *dest,
 
 //assign the right code to your layers for OLED display
 #define L_BASE 0
-#define L_LOWER 8
-#define L_RAISE 16
+#define L_LOWER 2
+#define L_RAISE 4
 #define L_FNLAYER 64
 #define L_NUMLAY 128
 #define L_NLOWER 136
 #define L_NFNLAYER 192
 #define L_MOUSECURSOR 256
-#define L_ADJUST 65536
+#define L_ADJUST 65542
 #define L_ADJUST_TRI 65560
 
 static void render_logo(struct CharacterMatrix *matrix) {
