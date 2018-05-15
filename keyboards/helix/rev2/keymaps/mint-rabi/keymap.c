@@ -30,6 +30,7 @@ extern uint8_t is_master;
 #define _QWERTY 0
 #define _LOWER 1
 #define _RAISE 2
+#define _IDEA 10
 #define _ADJUST 16
 
 enum custom_keycodes {
@@ -38,7 +39,9 @@ enum custom_keycodes {
   RAISE,
   ADJUST,
   BACKLIT,
-  RGBRST
+  RGBRST,
+  IDEA,
+  IJ_
 };
 
 enum macro_keycodes {
@@ -72,15 +75,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * |------+------+------+------+------+------+------+------+------+------+------+------+------+------|
    * | Shift|   Z  |   X  |   C  |   V  |   B  |   [  |   ]  |   N  |   M  |   ,  |   .  |   /  |¥_ / S|
    * |------+------+------+------+------+------+------+------+------+------+------+------+------+------|
-   * |Grv/AJ| Esc  | Alt  | GUI  | Space|Lower |Bksp  |Enter |Raise | LNG2 | Left | Down |  Up  |Right |
+   * |Grv/AJ| Esc  | Alt  | GUI  | Alt  |SPC/LW |Bksp  |Enter|Dl/RI | LNG2 | Left | Down |  Up  |Right |
    * `-------------------------------------------------------------------------------------------------'
    */
   [_QWERTY] = KEYMAP( \
-      KC_1,     KC_2,    KC_3,     KC_4,    KC_5,   KC_6,                     KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, JA_HAT, \
-      KC_TAB,   KC_Q,    KC_W,     KC_E,    KC_R,   KC_T,                     KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    JA_AT, \
-      KC_LCTL,  KC_A,    KC_S,     KC_D,    KC_F,   KC_G,                     KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, CTL_T(JA_CLON), \
-      KC_LSFT,  KC_Z,    KC_X,     KC_C,    KC_V,   KC_B,   KC_LBRC, KC_RBRC, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, SFT_T(JA_ENUN) , \
-      KC_GRV,   KC_ESC,  KC_LALT,  KC_LGUI, LOWER,  KC_SPC, KC_BSPC, KC_ENT,  RAISE,   KC_RALT ,KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT \
+      KC_1,     KC_2,    KC_3,     KC_4,    KC_5,   KC_6,                                KC_7,                KC_8,    KC_9,    KC_0,    KC_MINS, JA_HAT, \
+      KC_TAB,   KC_Q,    KC_W,     KC_E,    KC_R,   KC_T,                                KC_Y,                KC_U,    KC_I,    KC_O,    KC_P,    JA_AT, \
+      KC_LCTL,  KC_A,    KC_S,     KC_D,    KC_F,   KC_G,                                KC_H,                KC_J,    KC_K,    KC_L,    KC_SCLN, CTL_T(JA_CLON), \
+      KC_LSFT,  KC_Z,    KC_X,     KC_C,    KC_V,   KC_B,              KC_LBRC, KC_RBRC, KC_N,                KC_M,    KC_COMM, KC_DOT,  KC_SLSH, SFT_T(JA_ENUN) , \
+      KC_GRV,   KC_ESC,  KC_LALT,  KC_LGUI, KC_LALT,LT(LOWER,KC_SPC), KC_BSPC, KC_ENT,  LT(RAISE,KC_DEL),   KC_RALT ,KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT \
       ),
 
   /* Lower
@@ -125,13 +128,36 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY \
       ),
 
+  /* Intellij IDEA Shortcut Keys
+   * ,-----------------------------------------.             ,-----------------------------------------.
+   * |   `  |   1  |   2  |   3  |   4  |   5  |             |   6  |   7  |   8  |   9  |   0  | Bksp |
+   * |------+------+------+------+------+------|             |------+------+------+------+------+------|
+   * |   `  |   1  |   2  |   3  |   4  |   5  |             |   6  |   7  |   8  |   9  |   0  | Del  |
+   * |------+------+------+------+------+------|             |------+------+------+------+------+------|
+   * |      |  F1  |  F2  |  F3  |  F4  |  F5  |             |  F6  |   -  |   =  |   [  |   ]  |  \   |
+   * |------+------+------+------+------+------+------+------+------+------+------+------+------+------|
+   * |      |  F7  |  F8  |  F9  |  F10 |  F11 |      |      |  F12 |      |      |PageDn|PageUp|      |
+   * |------+------+------+------+------+------+------+------+------+------+------+------+------+------|
+   * |      |      |      |      |      |      |      |      |      |      | Next | Vol- | Vol+ | Play |
+   * `-------------------------------------------------------------------------------------------------'
+   */
+  [_IDEA] = KEYMAP( \
+      _______, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______, \
+      _______, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______, \
+      _______, _______, _______, _______, _______, _______,                   _______, _______, _______, _______, _______, _______, \
+      _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
+      _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______ \
+      ),
+
+
+
   /* Adjust (Lower + Raise)
    * ,-----------------------------------------.             ,-----------------------------------------.
    * |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |             |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |
    * |------+------+------+------+------+------|             |------+------+------+------+------+------|
    * |      | Reset|RGBRST|      |      |      |             |      |      |      |      |      |  Del |
    * |------+------+------+------+------+------|             |------+------+------+------+------+------|
-   * |      |      |      |Aud on|Audoff| Mac  |             | Win  |Qwerty|      |      |      |      |
+   * |      |      |      |Aud on|Audoff| Mac  |             | Win  |Qwerty| IDEA |      |      |      |
    * |------+------+------+------+------+------+------+------+------+------+------+------+------+------|
    * |      |      |      |      |      |      |      |      |      |      |RGB ON| HUE+ | SAT+ | VAL+ |
    * |------+------+------+------+------+------+------+------+------+------+------+------+------+------|
@@ -141,7 +167,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_ADJUST] =  KEYMAP( \
       KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                     KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12, \
       _______, RESET,   RGBRST,  _______, _______, _______,                   _______, _______, _______, _______, _______, KC_DEL, \
-      _______, _______, _______, AU_ON,   AU_OFF,  AG_NORM,                   AG_SWAP, QWERTY,  _______, _______,  _______, _______, \
+      _______, _______, _______, AU_ON,   AU_OFF,  AG_NORM,                   AG_SWAP, QWERTY,  IDEA   , _______,  _______, _______, \
       _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, \
       _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, RGB_SMOD,RGB_HUD, RGB_SAD, RGB_VAD \
       )
@@ -268,6 +294,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
       #endif
       break;
+    case IDEA:
+      if (record->event.pressed) {
+        persistent_default_layer_set(1UL<<_IDEA);
+      }
+      return false;
+      break;
   }
   return true;
 }
@@ -339,6 +371,7 @@ void matrix_update(struct CharacterMatrix *dest,
 #define L_MOUSECURSOR 256
 #define L_ADJUST 65542
 #define L_ADJUST_TRI 65560
+#define L_IDEA 65543
 
 static void render_logo(struct CharacterMatrix *matrix) {
 
@@ -356,15 +389,35 @@ static void render_logo(struct CharacterMatrix *matrix) {
 void render_status(struct CharacterMatrix *matrix) {
 
   // Render to mode icon
-  static char logo[][2][3]={{{0x95,0x96,0},{0xb5,0xb6,0}},{{0x97,0x98,0},{0xb7,0xb8,0}}};
-  if(keymap_config.swap_lalt_lgui==false){
-    matrix_write(matrix, logo[0][0]);
+  static char logo[][2][3]=
+  {
+    {
+      {0x95,0x96,0}
+      ,{0xb5,0xb6,0}
+    }
+    ,{
+      {0x97,0x98,0}
+      ,{0xb7,0xb8,0}
+    }
+    ,{
+      {0x99,0x9a,0}
+      ,{0xb9,0xba,0}
+    }
+  };
+  if(layer_state==L_IDEA) {
+    matrix_write(matrix, logo[2][0]);
     matrix_write_P(matrix, PSTR("\n"));
-    matrix_write(matrix, logo[0][1]);
-  }else{
-    matrix_write(matrix, logo[1][0]);
-    matrix_write_P(matrix, PSTR("\n"));
-    matrix_write(matrix, logo[1][1]);
+    matrix_write(matrix, logo[2][1]);
+  } else {
+    if(keymap_config.swap_lalt_lgui==false){
+      matrix_write(matrix, logo[0][0]);
+      matrix_write_P(matrix, PSTR("\n"));
+      matrix_write(matrix, logo[0][1]);
+    }else{
+      matrix_write(matrix, logo[1][0]);
+      matrix_write_P(matrix, PSTR("\n"));
+      matrix_write(matrix, logo[1][1]);
+    }
   }
 
   // Define layers here, Have not worked out how to have text displayed for each layer. Copy down the number you see and add a case for it below
@@ -385,6 +438,8 @@ void render_status(struct CharacterMatrix *matrix) {
         case L_ADJUST_TRI:
            matrix_write_P(matrix, PSTR("Adjust"));
            break;
+        case L_IDEA:
+          matrix_write_P(matrix, PSTR("Intellij IDEA"))
         default:
            matrix_write(matrix, buf);
     }
