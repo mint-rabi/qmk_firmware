@@ -439,7 +439,8 @@ void render_status(struct CharacterMatrix *matrix) {
            matrix_write_P(matrix, PSTR("Adjust"));
            break;
         case L_IDEA:
-          matrix_write_P(matrix, PSTR("Intellij IDEA"))
+          matrix_write_P(matrix, PSTR("Intellij IDEA"));
+          break;
         default:
            matrix_write(matrix, buf);
     }
