@@ -18,6 +18,7 @@ extern keymap_config_t keymap_config;
 
 #ifdef RGBLIGHT_ENABLE
 //Following line allows macro to read current RGB settings
+#include "rgblight_list.h"
 extern rgblight_config_t rgblight_config;
 #endif
 
