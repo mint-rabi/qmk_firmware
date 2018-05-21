@@ -177,10 +177,24 @@ void update_tri_layer_RGB(uint8_t layer1, uint8_t layer2, uint8_t layer3) {
   if (IS_LAYER_ON(layer1) && IS_LAYER_ON(layer2)) {
     #ifdef RGBLIGHT_ENABLE
       //rgblight_mode(RGB_current_mode);
+      //Adjust
+      rgblight_setrgb_white();
     #endif
     layer_on(layer3);
   } else {
     layer_off(layer3);
+    #ifdef RGBLIGHT_ENABLE
+      if(IS_LAYER_ON(layer2)) {
+        //Raise
+        rgblight_setrgb_blue();
+      } else if(IS_LAYER_ON(layer1)){
+        //Lower
+        rgblight_setrgb_orange();
+      } else {
+        //Default
+        rgblight_setrgb_purple();
+      }
+    #endif
   }
 }
 
