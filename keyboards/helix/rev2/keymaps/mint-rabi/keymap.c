@@ -1,12 +1,9 @@
-#include "helix.h"
+#include QMK_KEYBOARD_H
 #include "bootloader.h"
-#include "action_layer.h"
-#include "eeconfig.h"
 #ifdef PROTOCOL_LUFA
 #include "lufa.h"
 #include "split_util.h"
 #endif
-#include "LUFA/Drivers/Peripheral/TWI.h"
 #ifdef AUDIO_ENABLE
   #include "audio.h"
 #endif
@@ -28,10 +25,14 @@ extern uint8_t is_master;
 // The underscores don't mean anything - you can have a layer called STUFF or any other name.
 // Layer names don't all need to be of the same length, obviously, and you can also skip them
 // entirely and just use numbers.
-#define _QWERTY 0
-#define _LOWER 1
-#define _RAISE 2
-#define _ADJUST 16
+enum layer_number {
+    _QWERTY = 0,
+    _COLEMAK,
+    _DVORAK,
+    _LOWER,
+    _RAISE,
+    _ADJUST
+};
 
 enum custom_keycodes {
   QWERTY = SAFE_RANGE,
@@ -76,7 +77,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * |Grv   | Esc  | MuHen| GUI  | Alt  |Lower |Space |Enter |Raise | LNG2 | Left | Down |  Up  |Right |
    * `-------------------------------------------------------------------------------------------------'
    */
-  [_QWERTY] = KEYMAP( \
+  [_QWERTY] = LAYOUT( \
       KC_1,     KC_2,    KC_3,     KC_4,    KC_5,   KC_6,                    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, JA_HAT, \
       KC_TAB,   KC_Q,    KC_W,     KC_E,    KC_R,   KC_T,                    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    JA_AT, \
       KC_LCTL,  KC_A,    KC_S,     KC_D,    KC_F,   KC_G,                    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, CTL_T(JA_CLON), \
@@ -97,7 +98,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * |      |      |      |      |      |      |      |  DEL |      |      |      |      |      |      |
    * `-------------------------------------------------------------------------------------------------'
    */
-  [_LOWER] = KEYMAP( \
+  [_LOWER] = LAYOUT( \
       KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,                   KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, _______, \
       KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,                   KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_QUOT, \
       _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                     KC_F6,   KC_UNDS, KC_PLUS, JA_LBRC, JA_RBRC, S(JA_ENVL), \
@@ -118,7 +119,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * |      |      |      |      |      |      | BKSP |      |      |      | Next | Vol- | Vol+ | Play |
    * `-------------------------------------------------------------------------------------------------'
    */
-  [_RAISE] = KEYMAP( \
+  [_RAISE] = LAYOUT( \
       KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                      KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC, \
       KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                      KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_DEL, \
       _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                     KC_F6,   KC_MINS, KC_EQL,  KC_LBRC, KC_RBRC, KC_BSLS, \
@@ -139,7 +140,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * |      |      |      |      |      |      |      |      |      |      | MODE | HUE- | SAT- | VAL- |
    * `-------------------------------------------------------------------------------------------------'
    */
-  [_ADJUST] =  KEYMAP( \
+  [_ADJUST] =  LAYOUT( \
       KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                     KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12, \
       _______, RESET,   RGBRST,  _______, _______, _______,                   _______, _______, _______, _______, _______, KC_DEL, \
       _______, _______, _______, AU_ON,   AU_OFF,  AG_NORM,                   AG_SWAP, QWERTY,  _______, _______,  _______, _______, \
@@ -158,6 +159,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #ifdef AUDIO_ENABLE
 
 float tone_qwerty[][2]     = SONG(QWERTY_SOUND);
+float tone_dvorak[][2]     = SONG(DVORAK_SOUND);
+float tone_colemak[][2]    = SONG(COLEMAK_SOUND);
 float tone_plover[][2]     = SONG(PLOVER_SOUND);
 float tone_plover_gb[][2]  = SONG(PLOVER_GOODBYE_SOUND);
 float music_scale[][2]     = SONG(MUSIC_SCALE_SOUND);
@@ -296,7 +299,6 @@ void matrix_init_user(void) {
     #endif
     //SSD1306 OLED init, make sure to add #define SSD1306OLED in config.h
     #ifdef SSD1306OLED
-        TWI_Init(TWI_BIT_PRESCALE_1, TWI_BITLENGTH_FROM_FREQ(1, 800000));
         iota_gfx_init(!has_usb());   // turns on the display
     #endif
 }
