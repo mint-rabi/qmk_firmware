@@ -176,7 +176,7 @@ void encoder_update_user(uint8_t index, bool clockwise) {
   if (index == 0) { /* left encoder */
     switch (layer_state) {
       case L_AUDIO:
-        if (clockwise) {
+        if (!clockwise) {
           tap_code(KC_LEFT);
         } else {
           tap_code(KC_RIGHT);
