@@ -2,19 +2,12 @@
 #include "debug.h"
 #include "action_layer.h"
 #include "version.h"
+#include "keymap_jp.h"
 
 #define BASE 0 // default layer
 #define SYMB 1 // symbols and media keys
 #define META 2 // Meta and Macro keys
 #define LEFT 3 // Left hand keys
-
-#define JA_CLON KC_QUOT  // : and +
-#define JA_AT   KC_LBRC  // @ and `
-#define JA_HAT  KC_EQL   // ^ and ~
-#define JA_ENUN KC_RO    // \ and _ (EN mark and UNder score)
-#define JA_ENVL KC_JYEN  // \ and | (EN mark and Vertical Line)
-#define JA_LBRC KC_RBRC  // [ and {
-#define JA_RBRC KC_BSLS  // ] and }
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 0: Basic layer
@@ -42,7 +35,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // Otherwise, it needs KC_*
 [BASE] = LAYOUT_ergodox(  // layer 0 : default
         // left hand
-        JA_HAT,         KC_1,         KC_2,   KC_3,   KC_4,   KC_5,   KC_ESC,
+        JP_CIRC,         KC_1,         KC_2,   KC_3,   KC_4,   KC_5,   KC_ESC,
         KC_TAB,         KC_Q,         KC_W,   KC_E,   KC_R,   KC_T,   KC_ENT,
         KC_LCTL,        KC_A,         KC_S,   KC_D,   KC_F,   KC_G,
         KC_LSFT,        KC_Z,         KC_X,   KC_C,   KC_V,   KC_B,   ALL_T(KC_NO),
@@ -52,10 +45,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                    LT(LEFT,KC_SPC), KC_BSPC,  KC_DEL,
         // right hand
         KC_GRV,      KC_6,   KC_7,   KC_8,   KC_9,   KC_0,             KC_MINS,
-        TG(SYMB),    KC_Y,   KC_U,   KC_I,   KC_O,   KC_P,             JA_AT,
-                     KC_H,   KC_J,   KC_K,   KC_L,   KC_SCLN,          CTL_T(JA_CLON),
-        KC_B,        KC_N,   KC_M,   KC_COMM,KC_DOT, KC_SLSH,          SFT_T(JA_ENUN),
-                             JA_LBRC,JA_RBRC,S(JA_ENVL),JA_ENVL,       LT(SYMB, KC_NO),
+        TG(SYMB),    KC_Y,   KC_U,   KC_I,   KC_O,   KC_P,             JP_AT,
+                     KC_H,   KC_J,   KC_K,   KC_L,   KC_SCLN,          CTL_T(JP_COLN),
+        KC_B,        KC_N,   KC_M,   KC_COMM,KC_DOT, KC_SLSH,          SFT_T(JP_BSLS),
+                             JP_LBRC,JP_RBRC,S(JP_YEN),JP_YEN,       LT(SYMB, KC_NO),
              KC_LEFT,        KC_RGHT,
              KC_UP,
              KC_DOWN,LT(SYMB, KC_BSPC), LT(META, KC_ENT)
@@ -135,8 +128,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                   KC_TRNS, KC_TRNS, KC_TRNS,
        // right hand
        RESET,    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_BSPC,
-       KC_TRNS,  KC_TRNS, KC_INS,  KC_PSCR, KC_TRNS, KC_PAUS, S(JA_LBRC),
-                 KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, S(JA_LBRC), S(JA_RBRC),
+       KC_TRNS,  KC_TRNS, KC_INS,  KC_PSCR, KC_TRNS, KC_PAUS, S(JP_LBRC),
+                 KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, S(JP_LBRC), S(JP_RBRC),
        KC_TRNS,  KC_TRNS, M(1),    S(KC_INS),  LCTL(KC_INS), KC_TRNS, KC_RSFT,
                           LGUI(KC_L), KC_TRNS, KC_TRNS, KC_TRNS, KC_DEL,
        KC_TRNS, KC_TRNS,
@@ -145,10 +138,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 // LEFT
 [LEFT] = LAYOUT_ergodox(
-       JA_HAT,  KC_MINS, KC_0,    KC_9,    KC_8,    KC_7,    KC_6,
-       JA_AT,   KC_P,    KC_O,    KC_I,    KC_U,    KC_Y,    KC_TRNS,
-       JA_CLON, KC_SCLN, KC_L,    KC_K,    KC_J,    KC_H,
-       JA_ENUN, KC_SLSH, KC_DOT,  KC_COMM, KC_M,    KC_N,    KC_TRNS,
+       JP_CIRC,  KC_MINS, KC_0,    KC_9,    KC_8,    KC_7,    KC_6,
+       JP_AT,   KC_P,    KC_O,    KC_I,    KC_U,    KC_Y,    KC_TRNS,
+       JP_COLN, KC_SCLN, KC_L,    KC_K,    KC_J,    KC_H,
+       JP_BSLS, KC_SLSH, KC_DOT,  KC_COMM, KC_M,    KC_N,    KC_TRNS,
        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
                                            KC_TRNS, KC_TRNS,
                                                     KC_TRNS,
