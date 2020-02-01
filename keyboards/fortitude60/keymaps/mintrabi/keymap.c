@@ -1,5 +1,6 @@
 #include QMK_KEYBOARD_H
 #include "eeconfig.h"
+#include "keymap_jp.h"
 
 extern keymap_config_t keymap_config;
 
@@ -27,14 +28,6 @@ enum custom_keycodes
 #define XXXXXXX KC_NO
 #define LOWER MO(_LOWER)
 #define RAISE MO(_RAISE)
-
-#define JA_CLON KC_QUOT // : and +
-#define JA_AT KC_LBRC   // @ and `
-#define JA_HAT KC_EQL   // ^ and ~
-#define JA_ENUN KC_RO   // \ and _ (EN mark and UNder score)
-#define JA_ENVL KC_JYEN // \ and | (EN mark and Vertical Line)
-#define JA_LBRC KC_RBRC // [ and {
-#define JA_RBRC KC_BSLS // ] and }
 
 // Intellij Debug Keycode
 #define I_S_OV KC_F8 //StepOver
@@ -65,10 +58,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *               `---------------------------------------------------------------------'
  */
     [_QWERTY] = LAYOUT(
-        JA_HAT,  KC_1,    KC_2,    KC_3,    KC_4,  KC_5,                     KC_6,   KC_7,  KC_8,    KC_9,   KC_0,    KC_MINS,
-        KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,  KC_T,                     KC_Y,   KC_U,  KC_I,    KC_O,   KC_P,    JA_AT,
-        KC_LCTL, KC_A,    KC_S,    KC_D,    KC_F,  KC_G,                     KC_H,   KC_J,  KC_K,    KC_L,   KC_SCLN, CTL_T(JA_CLON),
-        KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,  KC_B,   JA_LBRC, JA_RBRC, KC_N,   KC_M,  KC_COMM, KC_DOT, KC_SLSH, SFT_T(JA_ENUN),
+        JP_CIRC, KC_1,    KC_2,    KC_3,    KC_4,  KC_5,                     KC_6,   KC_7,  KC_8,    KC_9,   KC_0,    KC_MINS,
+        KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,  KC_T,                     KC_Y,   KC_U,  KC_I,    KC_O,   KC_P,    JP_AT,
+        KC_LCTL, KC_A,    KC_S,    KC_D,    KC_F,  KC_G,                     KC_H,   KC_J,  KC_K,    KC_L,   KC_SCLN, CTL_T(JP_COLN),
+        KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,  KC_B,   JP_LBRC, JP_RBRC, KC_N,   KC_M,  KC_COMM, KC_DOT, KC_SLSH, SFT_T(JP_BSLS),
                           KC_LGUI, KC_LALT, LOWER, KC_SPC, KC_BSPC, KC_ESC,  KC_ENT, RAISE, KC_RALT, KC_GRV),
 
     /* Lower
@@ -85,7 +78,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *               `---------------------------------------------------------------------'
  */
     [_LOWER] = LAYOUT(
-        KC_TILD,      KC_EXLM, KC_AT,     KC_HASH, KC_DLR,  KC_PERC,                   KC_CIRC, KC_AMPR,    KC_ASTR,    KC_LPRN, KC_RPRN, JA_HAT,
+        KC_TILD,      KC_EXLM, KC_AT,     KC_HASH, KC_DLR,  KC_PERC,                   KC_CIRC, KC_AMPR,    KC_ASTR,    KC_LPRN, KC_RPRN, JP_CIRC,
         LALT(KC_TAB), KC_EXLM, KC_PGUP,   KC_HASH, KC_DLR,  KC_PERC,                   KC_CIRC, KC_AMPR,    KC_ASTR,    KC_LPRN, KC_RPRN, KC_DEL,
         _______,      KC_HOME, KC_PGDOWN, KC_END,  KC_F4,   KC_F5,                     KC_F6,   KC_UNDS,    KC_PLUS,    KC_LCBR, KC_RCBR, LSFT(KC_JYEN),
         _______,      KC_F7,   KC_F8,     KC_F9,   KC_F10,  KC_F11,  _______, _______, KC_F12,  S(KC_NUHS), S(KC_NUBS), _______, _______, _______,
