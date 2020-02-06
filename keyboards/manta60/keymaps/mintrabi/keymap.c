@@ -1,4 +1,4 @@
-/* Copyright 2019 kamonanban
+/* Copyright 2020 kamonanban
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,28 +16,23 @@
 #include QMK_KEYBOARD_H
 #include "keymap_jp.h"
 
-// Defines the keycodes used by our macros in process_record_user
-#define _QWERTY 0
-#define _LOWER 1
-#define _RAISE 2
-#define _ADJUST 3
-
-enum custom_keycodes {
-  QWERTY = SAFE_RANGE,
-  LOWER,
-  RAISE,
-  ADJUST,
+// Defines names for use in layer keycodes and the keymap
+enum layer_number {
+  _BASE = 0,
+  _LOWER,
+  _RAISE,
+  _ADJUST,
 };
 
-#define KC_KANJI KC_GRV
-
-#define KC_LOWER LOWER
-#define KC_RAISE RAISE
-#define KC_RST   RESET
-
+// Defines the keycodes used by our macros in process_record_user
+enum custom_keycodes {
+  LOWER = SAFE_RANGE,
+  RAISE,
+  ADJUST
+};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-  [_QWERTY] = LAYOUT( \
+  [_BASE] = LAYOUT( \
   //,---------------------------------------------------------------------.,---------------------------------------------------------------------.
        JP_CIRC,     KC_1,     KC_2,     KC_3,     KC_4,     KC_5,   KC_UP,    KC_LEFT,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,  KC_MINS,\
   //|---------+---------+---------+---------+---------+---------+---------|\---------+---------+---------+---------+---------+---------+---------|
@@ -93,10 +88,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //`---------+----------/\-------+---------+---------+---------+---------/\---------+---------+---------+---------+---------/\--------+----------'
   )
 };
-void persistent_default_layer_set(uint16_t default_layer) {
-  eeconfig_update_default_layer(default_layer);
-  default_layer_set(default_layer);
-}
 
 static inline void update_tri_layer_RGB(uint8_t layer1, uint8_t layer2, uint8_t layer3) {
   if (IS_LAYER_ON(layer1) && IS_LAYER_ON(layer2)) {
@@ -138,15 +129,4 @@ case ADJUST:
     break;
   }
   return true;
-}
-void matrix_init_user(void) {
-
-}
-
-void matrix_scan_user(void) {
-
-}
-
-void led_set_user(uint8_t usb_led) {
-
 }
